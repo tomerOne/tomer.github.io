@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
 <title>TÖMER</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
 </head>
 <style>
+
 #body2 {
-	height:auto;
-	width:auto%;
+	height:100%;
+	width:100%;
 	background-color:#F00;
 	background-size:cover;
 	background-attachment:fixed;
@@ -28,7 +29,6 @@
 	border: none; 
 	height: 100%; 
 	width: 100%; 
-	
 }
 
 
@@ -39,7 +39,9 @@
 
 <script type="text/javascript">
 
-	
+	$("html").contextmenu(function(e) {
+       e.preventDefault();
+    });
     function disableF5(e) {
         if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
     };
@@ -50,17 +52,18 @@
 	
 });
     var sayfa = 0;
-    $('html').mouseleave(function() {	
+    $('html').mouseleave(function() {
+		
             sayfa++;
             if (sayfa < 2) {
                 window.moveTo(0, 0);
                 window.resizeTo(screen.availWidth, screen.availHeight);
-		$('#myIframe').css("visibility","hidden");				
-       		$('#body2').animate({opacity: 0 }, 2); 
+				$('#myIframe').css("visibility","hidden");
+       			$('#body2').animate({opacity: 0 }, 2); 
                 $('#body2').animate({opacity: 0.001}, 60000);
                 $('#body2').animate({opacity: 1}, 1);
                 alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');   
-		$('#myIframe').css("visibility","visible");
+				$('#myIframe').css("visibility","hidden");
             } 
 			
 			else {
@@ -77,13 +80,9 @@
                     opacity: 1
                 }, 1);
                 alert('Sınav Esnasında Toplamda 2 Kere Soru Sayfasını Terk Ettiğiniz İçin 60dk Boyunca Soruları Görüntüleyemeyeceksiniz');
-            }
-			
-        
+            }  
     }); 
-	
-	   });
-	   
+		   
 	 
 
 </script>
@@ -91,16 +90,17 @@
 
 
 <body>
+
 <div id="body2">
 Bu ALAN GENEL ÇERÇEVE         
   <!--<object id"myCanvas" type="text/html"data="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" id="myFrame" oncontextmenu="none" style="overflow:hidden; 
          display:block; position: absolute; height: 100%; width: 100%">
        </object>-->
          	
-           <!--  <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
-         display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>-->
+             <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
+         display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>
          
-          <embed id="myIframe"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="100%" height="100%";> 
+         <!-- <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="1200" height="2000" pointer-events:none;> -->
          
         
 </div>
