@@ -37,10 +37,9 @@
 	display: block; 
 	position: absolute; 
 	border: none; 
-	height: 90%; 
-	width: 90%; 
-	margin-left:5%;
-	margin-top:5%;
+	height: 100%; 
+	width: 100%; 
+	
 }
 #myEmbed
 {
@@ -54,12 +53,7 @@
 
 <script type="text/javascript">
 
-	function mouseTakip(e) {
-alert('geri dön geri dön');
-}
-	$("html").contextmenu(function(e) {
-       e.preventDefault();
-    });
+	
     function disableF5(e) {
         if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
     };
@@ -67,14 +61,11 @@ alert('geri dön geri dön');
     $(document).ready(function() {
 		
         $(document).on("keydown", disableF5);
-	$('#myEmbed').mousedown(function(e) {
-    if (e.which === 3) {
-        alert('rightclick'); /* Right Mousebutton was clicked! */
-    }
+	
 });
     var sayfa = 0;
     $('html').mouseleave(function() {
-		window.open('', '_self', ''); window.close();
+		
             sayfa++;
             if (sayfa < 2) {
                 window.moveTo(0, 0);
@@ -116,9 +107,6 @@ alert('geri dön geri dön');
 
 
 <body>
-<div id="yassak">
-deneme
-</div>
 <div id="body2">
 Bu ALAN GENEL ÇERÇEVE         
   <!--<object id"myCanvas" type="text/html"data="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" id="myFrame" oncontextmenu="none" style="overflow:hidden; 
@@ -128,7 +116,7 @@ Bu ALAN GENEL ÇERÇEVE
            <!--  <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
          display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>-->
          
-          <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="1200" height="2000" pointer-events:none;> 
+          <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="100%" height="100%";> 
          
         
 </div>
