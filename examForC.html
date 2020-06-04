@@ -57,7 +57,7 @@
                 window.moveTo(0, 0);
                 window.resizeTo(screen.availWidth, screen.availHeight);
        		$('#body2').animate({opacity: 0 }, 2); 
-                $('#body2').animate({opacity: 0.001}, 60000);
+                $('#body2').animate({opacity: 0.001}, 10000);
                 $('#body2').animate({opacity: 1}, 1);
                 alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');   
 				$('#myIframe').css("visibility","hidden");
@@ -66,16 +66,9 @@
 			else {
                 window.moveTo(0, 0);
                 window.resizeTo(screen.availWidth, screen.availHeight);
-                $('#body2').animate({
-                    opacity: 0
-                }, 2);
-
-                $('#body2').animate({
-                    opacity: 0.001
-                }, 600000);
-                $('#body2').animate({
-                    opacity: 1
-                }, 1);
+               	$('#body2').animate({opacity: 0 }, 2); 
+	      	$('#body2').animate({opacity: 0.001}, 10000);
+                $('#body2').animate({opacity: 1}, 1);
                 alert('Sınav Esnasında Toplamda 2 Kere Soru Sayfasını Terk Ettiğiniz İçin 60dk Boyunca Soruları Görüntüleyemeyeceksiniz');
             }  
     }); 
