@@ -7,8 +7,8 @@
 </head>
 <style>
 #body2 {
-	height:100%;
-	width:100%;
+	height:auto;
+	width:auto%;
 	background-color:#F00;
 	background-size:cover;
 	background-attachment:fixed;
@@ -19,18 +19,7 @@
 	margin-left:0px;
 }
 
-#yassak
-{
-	height:100%;
-	width:100%;
-	background-color:#000;
-	visibility:hidden;
-	z-index:1;
-	position:absolute;
-	margin-top:0px;
-	margin-left:0px;
-	
-}
+
 #myIframe
 {
    	overflow: hidden; 
@@ -41,10 +30,7 @@
 	width: 100%; 
 	
 }
-#myEmbed
-{
-	background-color:#0F3;	
-}
+
 
 </style>
   
@@ -64,19 +50,17 @@
 	
 });
     var sayfa = 0;
-    $('html').mouseleave(function() {
-		
+    $('html').mouseleave(function() {	
             sayfa++;
             if (sayfa < 2) {
                 window.moveTo(0, 0);
                 window.resizeTo(screen.availWidth, screen.availHeight);
-				$('#myEmbed').css("visibility","hidden");
-				$('#myEmbed').css("pointer-events","none");
-				$('html').css("pointer-events","none");
-       			<!--$('#body2').animate({opacity: 0 }, 2); 
-                <!--$('#body2').animate({opacity: 0.001}, 60000);
-                <!--$('#body2').animate({opacity: 1}, 1);
-                <!--alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');   
+		$('#myIframe').css("visibility","hidden");				
+       		$('#body2').animate({opacity: 0 }, 2); 
+                $('#body2').animate({opacity: 0.001}, 60000);
+                $('#body2').animate({opacity: 1}, 1);
+                alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');   
+		$('#myIframe').css("visibility","visible");
             } 
 			
 			else {
@@ -116,7 +100,7 @@ Bu ALAN GENEL ÇERÇEVE
            <!--  <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
          display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>-->
          
-          <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="100%" height="100%";> 
+          <embed id="myIframe"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="100%" height="100%";> 
          
         
 </div>
