@@ -6,49 +6,132 @@
 <title>TÖMER</title>
 </head>
 <style>
-.body {
+#body2 {
 	height:100%;
 	width:100%;
 	background-color:#F00;
 	background-size:cover;
+	background-attachment:fixed;
 	oncontextmenu="return false;"
+	z-index:0;
 	position:absolute;
 	margin-top:0px;
 	margin-left:0px;
 }
 
-
+#yassak
+{
+	height:100%;
+	width:100%;
+	background-color:#000;
+	visibility:hidden;
+	z-index:1;
+	position:absolute;
+	margin-top:0px;
+	margin-left:0px;
+	
+}
 #myIframe
 {
    	overflow: hidden; 
 	display: block; 
 	position: absolute; 
 	border: none; 
-	height: 100%; 
-	width: 100%; 
+	height: 90%; 
+	width: 90%; 
+	margin-left:5%;
+	margin-top:5%;
 }
-
+#myEmbed
+{
+	background-color:#0F3;	
+}
 
 </style>
   
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+	function mouseTakip(e) {
+alert('geri dön geri dön');
+}
+	$("html").contextmenu(function(e) {
+       e.preventDefault();
+    });
+    function disableF5(e) {
+        if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
+    };
+
+    $(document).ready(function() {
+		
+        $(document).on("keydown", disableF5);
+	$('#myEmbed').mousedown(function(e) {
+    if (e.which === 3) {
+        alert('rightclick'); /* Right Mousebutton was clicked! */
+    }
+});
+    var sayfa = 0;
+    $('html').mouseleave(function() {
+		window.open('', '_self', ''); window.close();
+            sayfa++;
+            if (sayfa < 2) {
+                window.moveTo(0, 0);
+                window.resizeTo(screen.availWidth, screen.availHeight);
+				$('#myEmbed').css("visibility","hidden");
+				$('#myEmbed').css("pointer-events","none");
+				$('html').css("pointer-events","none");
+       			<!--$('#body2').animate({opacity: 0 }, 2); 
+                <!--$('#body2').animate({opacity: 0.001}, 60000);
+                <!--$('#body2').animate({opacity: 1}, 1);
+                <!--alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');   
+            } 
+			
+			else {
+                window.moveTo(0, 0);
+                window.resizeTo(screen.availWidth, screen.availHeight);
+                $('#body2').animate({
+                    opacity: 0
+                }, 2);
+
+                $('#body2').animate({
+                    opacity: 0.001
+                }, 600000);
+                $('#body2').animate({
+                    opacity: 1
+                }, 1);
+                alert('Sınav Esnasında Toplamda 2 Kere Soru Sayfasını Terk Ettiğiniz İçin 60dk Boyunca Soruları Görüntüleyemeyeceksiniz');
+            }
+			
+        
+    }); 
+	
+	   });
+	   
+	 
+
+</script>
 
 
 
 <body>
-
-       
+<div id="yassak">
+deneme
+</div>
+<div id="body2">
+Bu ALAN GENEL ÇERÇEVE         
   <!--<object id"myCanvas" type="text/html"data="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" id="myFrame" oncontextmenu="none" style="overflow:hidden; 
          display:block; position: absolute; height: 100%; width: 100%">
        </object>-->
          	
-            <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
-         display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>
+           <!--  <iframe id="myIframe" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" style="overflow:hidden; 
+         display:block; position: absolute; height: 100%; width: 100%; border:none;" >Yükleniyor…</iframe>-->
          
-          <!-- <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="1200" height="2000" pointer-events:none;> -->
+          <embed id="myEmbed"oncontextmenu="myFunction()" contextmenu="mymenu" type="text/html" src="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" width="1200" height="2000" pointer-events:none;> 
          
         
-
+</div>
 
 </body>
 </html>
