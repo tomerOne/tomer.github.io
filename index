@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TÖMER</title>
+<script>
+
+
+var exam="";
+function myFunction() {
+var params = [
+    'height='+screen.height,
+    'width='+screen.width,
+    'fullscreen=yes' // only works in IE, but here for completeness
+].join(',');
+     // and any other options from
+     // https://developer.mozilla.org/en/DOM/window.open
+
+var popup = window.open('examCam.html', 'popup_window', params); 
+popup.moveTo(0,0);
+localStorage.setItem("exam", "butondan");
+}
+
+
+</script>
+
+
+</head>
+
+<body>
+<button onclick="myFunction()">Sınava Başla</button>
+</body>
+</html>
