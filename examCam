@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Unbenanntes Dokument</title>
+
+
+</head>
+<style>
+
+.body
+{
+	background-color:#0C3;	
+	oncontextmenu="return false;"
+}
+#container
+{
+margin-top:0px;
+margin-left:0px;
+background-color:#000;
+position:absolute;	
+padding:0px;
+}
+#leftSide
+{
+	background-color:#900;
+	width:44vw;
+	height:100vh;
+	margin-left:0px;
+	margin-top:0px;	
+	padding:0px;
+	float:left;
+	overflow:hidden;
+}
+
+#rightSide
+{
+	background-color:#666;
+	width:53vw;
+	height:100vh;
+	margin-left:1vw;
+	padding:0px;	
+	float:left;
+}
+#canvas
+{
+	
+}
+</style>
+<body oncontextmenu="return false;">
+<div id="container">
+
+
+	<div id="leftSide">
+    
+    
+    <div class="video-wrap">
+	<video id="video" playsinline autoplay></video>
+</div>
+
+
+
+<canvas id="canvas" ></canvas>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+function disableF5(e) {
+        if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) e.preventDefault();
+    };
+	
+	$(document).ready(function() {
+		
+        $(document).on("keydown", disableF5);
+	
+});
+</script>
+
+<script>
+ 
+
+var x=screen.width/2.3;
+var y=screen.height/2.3;
+'use strict';
+
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const snap = document.getElementById('snap');
+const errorMsgElement = document.getElementById('span#ErorMsg');
+
+const constraints={
+	
+	audio:false,
+	video:{width:x,height:y	}
+};
+
+
+async function init(){
+	try
+	{
+		const stream=await navigator.mediaDevices.getUserMedia(constraints);
+		handleSuccess(stream);
+	}
+	
+	catch(e)
+	{
+		errorMsgElement.innerHTML='navigator.getUserMedia.error:${e.toString()}';
+	}
+}
+
+function handleSuccess(stream)
+{
+	window.stream=stream;
+	video.srcObject=stream;
+}
+init();
+
+var context=canvas.getContext('2d');
+snap.addEventListener("click",function(){
+	context.drawImage(video,640,480,0,0);
+});
+
+</script>
+    
+    </div>
+    
+    <div id="rightSide">
+    
+    	       
+  <object id"myCanvas" type="text/html"data="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" id="myFrame" oncontextmenu="none" style="overflow:hidden;display:block; float:right;height: 100%; width: 53vw">
+       </object>
+    
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
