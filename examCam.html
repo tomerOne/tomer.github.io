@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Unbenanntes Dokument</title>
+<title>Sınav Ekranı</title>
 
 
 </head>
@@ -45,6 +45,15 @@ padding:0px;
 #canvas
 {
 	
+}
+
+#metin
+{
+	text-align:center;
+	margin-left:auto;
+	color:#FFF;
+	font-size:24px;	
+	visibility:hidden;
 }
 </style>
 <body oncontextmenu="return false;">
@@ -99,6 +108,7 @@ async function init(){
 	{
 		const stream=await navigator.mediaDevices.getUserMedia(constraints);
 		handleSuccess(stream);
+		$("#metin").css("visibility","visible");
 	}
 	
 	catch(e)
@@ -120,14 +130,19 @@ snap.addEventListener("click",function(){
 });
 
 </script>
-    
+     <div id="metin">
+       		Tanımlanan Kullanıcı...<br>
+            <--Kübra ANAPA-->
+       </div>
     </div>
-    
+   
     <div id="rightSide">
     
     	       
   <object id"myCanvas" type="text/html"data="https://docs.google.com/forms/d/e/1FAIpQLSfJWg9rPfkbuhMy4F1dDWoPQKXKpiJw19kSUGptOuXFCrbZXQ/viewform?embedded=true" id="myFrame" oncontextmenu="none" style="overflow:hidden;display:block; float:right;height: 100%; width: 53vw">
        </object>
+       
+       
     
     </div>
 
