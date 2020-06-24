@@ -1,0 +1,1006 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sınav Ekranı</title>
+<link rel="stylesheet" type="text/css" href="examCss.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+
+
+
+<!--                         Form Verileri Göderme Kodları-->
+
+<script data-cfasync="false" type="text/javascript">
+jQuery( document ).ready(function( $ ) {
+	// variable to hold request
+	var request;
+	// bind to the submit event of our form
+	$("#sinav").submit(function(event){
+		
+		getDate();
+		
+		
+		// abort any pending request
+		if (request) {
+			request.abort();
+		}
+		// setup some local variables
+		var $form = $(this);
+		// let's select and cache all the fields
+		var $inputs = $form.find("input, select, button, textarea");
+		// serialize the data in the form
+		var serializedData = $form.serialize();
+	
+		// let's disable the inputs for the duration of the ajax request
+		// Note: we disable elements AFTER the form data has been serialized.
+		// Disabled form elements will not be serialized.
+		$inputs.prop("disabled", true);
+		$('#result').text('Sınavınız Kaydediliyor. Lütfen Bekleyiniz...');
+	
+		// fire off the request to /form.php
+		request = $.ajax({
+			url: "https://script.google.com/macros/s/AKfycbwVl9p681bICY_f3uwzDsTLD45c8TVCniN7dsfNBPN0o_t-7wA/exec",
+			type: "post",
+			data: serializedData
+		});
+	
+		// callback handler that will be called on success
+		request.done(function (response, textStatus, jqXHR){
+			// log a message to the console
+			$('#result').html('Sınavınız Başarıyla Kaydedildi. Sayfayı Kapatabilirsiniz');
+			alert('Sınavınız Tamamlanmıştır. Başarılar');
+			console.log("Sınav Kaydedildi");
+			window.location.href = 'http://tomer.kastamonu.edu.tr/';
+		});
+	
+		// callback handler that will be called on failure
+		request.fail(function (jqXHR, textStatus, errorThrown){
+			// log the error to the console
+			alert(
+				"Sınav Kaydı Esnasında Hata Oluştu "+
+				textStatus, errorThrown
+			);
+		});
+	
+		// callback handler that will be called regardless
+		// if the request failed or succeeded
+		request.always(function () {
+			// reenable the inputs
+			$inputs.prop("disabled", false);
+		});
+	
+		// prevent default posting of form
+		event.preventDefault();
+	});
+});
+function getDate()
+{
+var d = new Date();
+    document.getElementById("time").value = d;
+}
+</script>
+<!--                         Form Verileri Göderme Kodları               Bitiş-->
+
+<!--   F5 pasif, TextBox Maskları, Sınav Verileri Toplama Kodları     -->
+
+<script>
+		var fotoCek=false;
+		var fotoKaydet=false;
+function disableF5(e) {
+        if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 17) e.preventDefault();
+    };
+		
+	$(document).ready(function() {
+		document.getElementById("save").disabled = true;
+		
+		navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia);
+
+navigator.getMedia({video: true}, function() {
+ 
+}, function() {
+  alert('Kullanılabilir Bir Kamera Bulunamadı. Kamera Bağlanıtınız Olmadan Sınava Katılamazsınız');
+  $('body').css("display","none");
+});
+		
+	$("#canvas").css("width",screen.width/3);
+	$("#canvas").css("margin-left","0%");
+	$("#canvas").css("height",screen.height/3); 
+		
+		
+		//$('#container span').text('deneme');
+        $(document).on("keydown", disableF5);
+		$("#ad").bind("keyup blur",function(){ var node = $(this); node.val(node.val().replace(/[^A-Za-z_rRışçöüğĞÜŞİÇÖ\s]/,'') ); }  );
+		$("#soyad").bind("keyup blur",function(){ var node = $(this); node.val(node.val().replace(/[^A-Za-z_rRışçöüğĞÜŞİÇÖ\s]/,'') ); }  );
+		$("#ogrno").bind("keyup blur",function(){ var node = $(this); node.val(node.val().replace(/[^0-9\s]/,'') ); }  );
+		
+		//$("#ogrno").mask("000000000");
+		var cards = $(".questText");
+for(var i = 0; i < cards.length; i++){
+    var target = Math.floor(Math.random() * cards.length -1) + 1;
+    var target2 = Math.floor(Math.random() * cards.length -1) +1;
+    cards.eq(target).before(cards.eq(target2));	
+}
+
+var cards2 = $(".questText span");
+for(var i = 0; i < cards.length; i++){
+   cards2.eq(i).text("Soru "+(i+1)+":");	
+}
+	
+});
+
+
+
+function foo() {
+	var ad=document.getElementById("ad").value;
+	if(ad=="")
+	{
+		alert("Adınız Alanını Boş Bırakamazsınız");
+
+	}
+	
+	else 
+	{
+		var soyad=document.getElementById("soyad").value;
+		
+		if(soyad=="")
+		{
+		alert("Soyadınız Alanını Boş Bırakamazsınız");
+
+		}
+		else
+		{
+			var ogrno=document.getElementById("ogrno").value;
+		
+			if(ogrno=="")
+			{
+			alert("Öğrenci No Alanını Boş Bırakamazsını");
+
+			}
+			
+			else
+			{
+				//alert(fotoCek+" "+fotoKaydet);
+				if(window.fotoCek==true && window.fotoKaydet==true)
+				{
+					
+					$("#container").css("display","block");
+					$(".register").css("display","none");
+					document.getElementById("name").value=ad;
+					document.getElementById("surname").value=soyad;
+					document.getElementById("numb").value=ogrno;
+					stopCam();
+					
+				}
+				
+				else 
+				{
+					alert('Fotoğraf Kaydetme İşlemi Yapmadan Sınava Başlayamazsınız');
+					alert(fotoCek+"Foto Çekin Durumu");
+					alert(fotoKaydet+"FotoKaydetin Durumu");
+					
+				}
+	
+			}
+		}
+	}
+}
+
+
+</script>
+<!--   F5 pasif, TextBox Maskları, Sınav Verileri Toplama Kodları  Bitiş    -->
+</head>
+<style>
+
+
+
+</style>
+
+
+
+<body oncontextmenu="return false;">
+
+<div class="register">
+<div id="genelWrap">
+<div class="video-wrap">
+	<video id="video" style="margin:auto" playsinline autoplay> deneme</video>
+
+</div>
+
+
+<canvas id="canvas" width="600" height="480" style="margin:auto"></canvas>
+
+</div>
+
+
+<div class="controller">
+    <button id="snap" >FOTO ÇEK</button>
+    <label for="imgur" id="imgurlbl" style="text-align:center"> </label>
+    <button id="save" onClick="share();">KAYDET</button>
+</div>
+<div id="inText"> <b>Sınava Başlayabilmeniz İçin:</b> <br> 1. Ekranın solunda yer alan kamera görüntüsünde yüzünüz net bir şekilde görünürken 'FOTO ÇEK' butonuna tıklayın. <br>2. Ekranınızın sağında yer alan siyah çerçeve içerisinde yüzünüzün net bir şekilde göründüğü fotoğraf oluştuktan sonra 'KAYDET' butonuna basın.<br>3. Adınızı girin.<br>4.Soyadınızı girin.<br> 5.Öğrenci Numaranızı girin.<br>6. Sayfanın altında yer alan<b> "Sınava Başla"</b> butonuna basın.</div>
+<!--  Kamera Kodları-->
+
+<script>
+
+function stopCam()
+{
+const video = document.querySelector('video');
+const mediaStream = video.srcObject;
+const tracks = mediaStream.getTracks();
+tracks[0].stop();	
+} 
+var x=screen.width/3;
+var y=screen.height/3;
+'use strict';
+
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const snap = document.getElementById('snap');
+const errorMsgElement = document.getElementById('span#ErorMsg');
+
+const constraints={
+	
+	audio:false,
+	video:{width:x,height:y}
+	
+
+};
+			
+
+async function init(){
+	try
+	{
+		
+		const stream=await navigator.mediaDevices.getUserMedia(constraints);
+		handleSuccess(stream);
+		
+	}
+	
+	catch(e)
+	{
+		errorMsgElement.innerHTML='navigator.getUserMedia.error:${e.toString()}';
+		
+	}
+}
+
+function handleSuccess(stream)
+{
+	window.stream=stream;
+	video.srcObject=stream;
+}
+init();
+
+// Draw image
+var context = canvas.getContext('2d');
+snap.addEventListener("click", function() {
+	//context.drawImage(video, 0,0, (screen.width/6),(screen.height/3));
+	context.drawImage(video, 0,0, (640),(480));
+	fotoCek=true;
+	document.getElementById("save").disabled = false;
+	document.getElementById("imgurlbl").innerHTML="";
+});
+
+
+function share(){
+	document.getElementById('imgurlbl').style.color = "red";
+	document.getElementById("imgurlbl").innerHTML="Fotoğrafınız Yükleniyor Lütfen Bekleyiniz...";
+
+	try {
+    var img = document.getElementById('canvas').toDataURL('image/jpeg', 0.9).split(',')[1];
+} catch(e) {
+    var img = document.getElementById('canvas').toDataURL().split(',')[1];
+}
+
+$.ajax({
+    url: 'https://api.imgur.com/3/image',
+    type: 'post',
+    headers: {
+        Authorization: 'Client-ID fe68715c41c9744'
+    },
+    data: {
+        image: img
+    },
+    dataType: 'json',
+    success: function(response) {
+        if(response.success) {
+			
+			
+			document.getElementById('imgurlbl').style.color = "green";
+			document.getElementById("imgurlbl").innerHTML="Fotoğrafınız Başarıyla Kaydedildi.";
+			fotoKaydet=true;
+			var photoLink=response.data.link;
+			document.getElementById('photo').value=photoLink; 
+			  
+        }
+    }
+});
+}
+
+
+
+
+
+</script>
+
+<!-- Kamera Kodları Bitiş-->
+	
+    
+	<label for="ad" style="text-align:left">Adınız</label>
+    <input type="text" id="ad" name="ad" placeholder="Adınız Alanını Boş Bırakamazsınız">
+
+    <label for="soyad" style="text-align:left">Soyadınız</label>
+    <input type="text" id="soyad" name="soyad" placeholder="Soyadınız Alanını Boş Bırakamazsınız">
+    
+    <label for="ogrno" style="text-align:center">Öğrenci_Numaranız</label>
+    <input type="text" id="ogrno" name="ogrno" placeholder="Öğrenci Numaranız Alanını Boş Bırakamazsınız">
+    
+    <input type="submit" value="Sınava Başla" onclick="return foo();return stopCam();">
+    
+</div>
+
+	<div id="container">
+
+     	<div id="dinleme">
+        	BU ALANDA DİNLEME KAYITLARI YER ALACAK
+        </div>
+        
+        <div class="questBar">
+        <!--  ________________________________________________SORULAR BU ALANA YAPIŞTIRILACAK_____________________________________________-->
+        	
+        <form id="sinav">
+
+        <input type="hidden" id="name" name="name" value="">
+        <input type="hidden" id="surname" name="surname" value="">
+        <input type="hidden" id="numb" name="numb" value=""> 
+        <input type="hidden" id="photo" name="photo" value=""> 
+        <input type="hidden" id="time" name="time" value="">    
+        
+       
+            <!-- Excel Import Start -->
+<div class="questText"><span> </span> Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br>      Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br> (İlk 4 soruyu metne göre cevaplayınız.)<br><br>Şeyma kaç yaşında? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru1" value="A">
+     <label for="A"><b>A.</b>16 yaşında </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru1" value="B">
+     <label for="B"><b>B.</b> 17 yaşında    </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru1" value="C">
+     <label for="C"><b>C.</b> 26 yaşında</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru1" value="D">
+     <label for="D"><b>D.</b> 27 yaşında</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru1" value="E">
+     <label for="E"><b>E.</b> 28 yaşında </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Şeyma  nerede yaşıyor?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru2" value="A">
+     <label for="A"><b>A.</b> Evde</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru2" value="B">
+     <label for="B"><b>B.</b> Kayseri'de</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru2" value="C">
+     <label for="C"><b>C.</b> Trafikte</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru2" value="D">
+     <label for="D"><b>D.</b> Okulda      </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru2" value="E">
+     <label for="E"><b>E.</b> Ankara'da </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Şeyma ne iş yapıyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru3" value="A">
+     <label for="A"><b>A.</b> Pilot</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru3" value="B">
+     <label for="B"><b>B.</b> Aşçı</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru3" value="C">
+     <label for="C"><b>C.</b> Şoför</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru3" value="D">
+     <label for="D"><b>D.</b> Anne</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru3" value="E">
+     <label for="E"><b>E.</b> Öğretmen </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Şeyma'nın dersi saat kaçta bitiyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru4" value="A">
+     <label for="A"><b>A.</b>9.00'da</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru4" value="B">
+     <label for="B"><b>B.</b>10.00'da</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru4" value="C">
+     <label for="C"><b>C.</b> 11.00'de</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru4" value="D">
+     <label for="D"><b>D.</b> 16.00'da</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru4" value="E">
+     <label for="E"><b>E.</b> 17.30'da </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> Aşağıdaki zıt anlamlı kelimelerden hangisi<u> yanlış </u>eşleşmiştir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru5" value="A">
+     <label for="A"><b>A.</b>Yavaş-Hızlı    </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru5" value="B">
+     <label for="B"><b>B.</b> Fakir-Ucuz </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru5" value="C">
+     <label for="C"><b>C.</b> Boş- Dolu    </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru5" value="D">
+     <label for="D"><b>D.</b> Dar-Geniş   </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru5" value="E">
+     <label for="E"><b>E.</b> Uzun-Kısa </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> " bin yirmi beş" sayısının doğru yazılışı hangisidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru6" value="A">
+     <label for="A"><b>A.</b>1025</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru6" value="B">
+     <label for="B"><b>B.</b>10025</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru6" value="C">
+     <label for="C"><b>C.</b>1250</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru6" value="D">
+     <label for="D"><b>D.</b>1250</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru6" value="E">
+     <label for="E"><b>E.</b>3000 </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki cümlelerden hangisinde şu an yapılan bir iş vardır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru7" value="A">
+     <label for="A"><b>A.</b>Ben Kayseri'ye gideceğim.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru7" value="B">
+     <label for="B"><b>B.</b> Ben de Kayseri'ye gittim.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru7" value="C">
+     <label for="C"><b>C.</b> Ben Kayseri'ye gidiyorum.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru7" value="D">
+     <label for="D"><b>D.</b> Ben Kayseri'ye gitmişim.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru7" value="E">
+     <label for="E"><b>E.</b> Ben de Kayseri'ye giderim. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> Aşağıdaki cümlede boş yerlere hangi<u> isim hal ekleri</u> gelmelidir?<br><div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru8" value="A">
+     <label for="A"><b>A.</b>[-den/-dan, -e/-a]</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru8" value="B">
+     <label for="B"><b>B.</b> [-e/a, -de/-da]</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru8" value="C">
+     <label for="C"><b>C.</b> [-i/-ı, -de/-da]</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru8" value="D">
+     <label for="D"><b>D.</b> [-e/a, -den/-dan]</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru8" value="E">
+     <label for="E"><b>E.</b> [-de/da, -e/a] </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>  Aşağıdaki kelimelerden hangisi sıra bildirir?<br>"seksen /  yüz elli /  kırkıncı /  iki / yirmi dört / bir milyar"<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru9" value="A">
+     <label for="A"><b>A.</b> seksen          </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru9" value="B">
+     <label for="B"><b>B.</b> yüz elli           </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru9" value="C">
+     <label for="C"><b>C.</b> yirmi dört            </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru9" value="D">
+     <label for="D"><b>D.</b> kırkıncı        </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru9" value="E">
+     <label for="E"><b>E.</b> bir milyar </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> " Burada yaşamaktan mutlu musun?" sorusunun olumsuz cevabı aşağıdakilerden  hangisidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru10" value="A">
+     <label for="A"><b>A.</b>     Evet mutluyum.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru10" value="B">
+     <label for="B"><b>B.</b>     Bilmiyorum .</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru10" value="C">
+     <label for="C"><b>C.</b>      Olabilir.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru10" value="D">
+     <label for="D"><b>D.</b>     Hayır ,mutluyum.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru10" value="E">
+     <label for="E"><b>E.</b>     Galiba. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıda verilen metinde yanlış  kullanılmış kelime hangisidir?<br> "Seninle seyrettiğimiz filmi hiç unutamıyorum. Hele o çarpışma sahnesindeki üç arabalar nasıl takla attı!Yine birlikte sinemaya gidelim mi, ne dersin?"<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru11" value="A">
+     <label for="A"><b>A.</b> seninle  </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru11" value="B">
+     <label for="B"><b>B.</b> filmi     </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru11" value="C">
+     <label for="C"><b>C.</b>hele    </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru11" value="D">
+     <label for="D"><b>D.</b>arabalar   </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru11" value="E">
+     <label for="E"><b>E.</b> gidelim </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki altı çizili kelimelerden hangisi bir iş (hareket) bildirir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru12" value="A">
+     <label for="A"><b>A.</b> <u>Yataklar</u> hazırsa yatalım.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru12" value="B">
+     <label for="B"><b>B.</b> Sevilen<u> öğretmenler</u> hiç unutulmaz.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru12" value="C">
+     <label for="C"><b>C.</b> Türk insanında <u>komşuluk</u> ilişkileri çok güçlüdür.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru12" value="D">
+     <label for="D"><b>D.</b> Seni <u>seviyorum</u>.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru12" value="E">
+     <label for="E"><b>E.</b> <u>Gülücükler</u> saçıyorsun. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdakilerden hangisi sabahları verilen selamdır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru13" value="A">
+     <label for="A"><b>A.</b>Tünaydın  </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru13" value="B">
+     <label for="B"><b>B.</b>İyi akşamlar  </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru13" value="C">
+     <label for="C"><b>C.</b>Günaydın  </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru13" value="D">
+     <label for="D"><b>D.</b>Görüşürüz </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru13" value="E">
+     <label for="E"><b>E.</b>Güle güle </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki cümlelerden hangisi emir cümlesidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru14" value="A">
+     <label for="A"><b>A.</b>Bir daha derse geç gelme!</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru14" value="B">
+     <label for="B"><b>B.</b>Yarın ben de sizinle geleyim mi?</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru14" value="C">
+     <label for="C"><b>C.</b>Derste her gün müzik dinliyor.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru14" value="D">
+     <label for="D"><b>D.</b>Her akşam kitap okuyorum.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru14" value="E">
+     <label for="E"><b>E.</b>Sabahları yürüyüş yapıyorum. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> Aşağıdaki boşluklara hangi kelimeler getirilmelidir?<br>   Ben futbol ___ ve gitar ___.<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru15" value="A">
+     <label for="A"><b>A.</b>çalabilirim/oynayabilirim</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru15" value="B">
+     <label for="B"><b>B.</b>  oynuyorum/uçabilirim</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru15" value="C">
+     <label for="C"><b>C.</b> Sıçrayabilirim/atlayabilirim      </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru15" value="D">
+     <label for="D"><b>D.</b> oynayabilirim/çalabilirim</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru15" value="E">
+     <label for="E"><b>E.</b>tutabilirim/atabilirim </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> Aşağıdakilerden hangisinde bir istek anlamı vardır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru16" value="A">
+     <label for="A"><b>A.</b>Bugün okula gelmelisin.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru16" value="B">
+     <label for="B"><b>B.</b>Bir arabam olsa da eve onunla gitsem.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru16" value="C">
+     <label for="C"><b>C.</b>Yarın istanbul'a gideceğim.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru16" value="D">
+     <label for="D"><b>D.</b>Şimdi ne yapıyorsun?</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru16" value="E">
+     <label for="E"><b>E.</b>Çalışmaya gidiyorum. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki  cümlelerin hangisinde gücü yetme- beceri anlamı vardır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru17" value="A">
+     <label for="A"><b>A.</b>Kaçan balık büyük olur.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru17" value="B">
+     <label for="B"><b>B.</b>O kutuyu kaldırabilirim diyorsan sen taşı.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru17" value="C">
+     <label for="C"><b>C.</b>Canım çok sıkıldı.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru17" value="D">
+     <label for="D"><b>D.</b>Annem eve gelince konuşurum.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru17" value="E">
+     <label for="E"><b>E.</b>At Ölür meydan kalır. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> "………………… gidiyorum.Sen de gelir misin?" cümlesi aşağıdakilerden hangisi ile tamamlanırsa yanlış olur?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru18" value="A">
+     <label for="A"><b>A.</b>Eve     </label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru18" value="B">
+     <label for="B"><b>B.</b> okula      </label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru18" value="C">
+     <label for="C"><b>C.</b> Tatile     </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru18" value="D">
+     <label for="D"><b>D.</b>Köyü  </label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru18" value="E">
+     <label for="E"><b>E.</b>Sinemaya   </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>" Yemek tuzlu mu olmuş?" sorusuna olumsuz cevap veren bir kişi aşağıdaki cümlelerden hangisini kullanabilir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru19" value="A">
+     <label for="A"><b>A.</b>Bilmem anlamadım.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru19" value="B">
+     <label for="B"><b>B.</b>Hayır tuzsuz olmuş.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru19" value="C">
+     <label for="C"><b>C.</b>Evet tuzundan yenmiyor.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru19" value="D">
+     <label for="D"><b>D.</b>Benim için fark etmez.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru19" value="E">
+     <label for="E"><b>E.</b>İçim yandı su getir. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki cümlelerin hangisinde altı çizili kelime yanlış  kullanılmıştır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru20" value="A">
+     <label for="A"><b>A.</b> <u>Pahalı</u> bir araba almış.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru20" value="B">
+     <label for="B"><b>B.</b> Musa'nın kız kardeşi <u>yakışıklı</u>.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru20" value="C">
+     <label for="C"><b>C.</b> Odam<u> büyük</u> ve güzel.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru20" value="D">
+     <label for="D"><b>D.</b> Aydın'ın ailesi çok<u> fakir</u>.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru20" value="E">
+     <label for="E"><b>E.</b><u>Küçük</u> çocuk düştü. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> "Babamın erkek kardeşi ile ablamın kocası kaza yapmışlar."<br>Yukarıdaki cümleye göre kimler kaza yapmıştır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru21" value="A">
+     <label for="A"><b>A.</b> Dayım - Kuzenim</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru21" value="B">
+     <label for="B"><b>B.</b> Amcam - Eniştem</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru21" value="C">
+     <label for="C"><b>C.</b> Yeğenim - Halam</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru21" value="D">
+     <label for="D"><b>D.</b> Halam – Ağabeyim</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru21" value="E">
+     <label for="E"><b>E.</b>Ben-Annem </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> Aşağıdaki eşleştirmelerden hangisi diğerlerindenfarklıdır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru22" value="A">
+     <label for="A"><b>A.</b> İnce - Kalın</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru22" value="B">
+     <label for="B"><b>B.</b> Beyaz - Ak</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru22" value="C">
+     <label for="C"><b>C.</b> Kuru - Yaş</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru22" value="D">
+     <label for="D"><b>D.</b> Taze – Bayat</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru22" value="E">
+     <label for="E"><b>E.</b> Sıcak-Soğuk </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> "Öğretmenimizin bize dediklerinin doğru olduğunu ......................."<br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilemez?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru23" value="A">
+     <label for="A"><b>A.</b> inanıyoruz</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru23" value="B">
+     <label for="B"><b>B.</b> düşünüyoruz</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru23" value="C">
+     <label for="C"><b>C.</b> biliyoruz</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru23" value="D">
+     <label for="D"><b>D.</b> sanmıyoruz</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru23" value="E">
+     <label for="E"><b>E.</b> anlıyoruz </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span>Aşağıdaki cümlelerden hangisi anlamca ötekilerden farklıdır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru24" value="A">
+     <label for="A"><b>A.</b> Ablam benden üç yaş büyüktür.</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru24" value="B">
+     <label for="B"><b>B.</b> Ablamdan üç yıl önce doğmuşum.</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru24" value="C">
+     <label for="C"><b>C.</b> Ben ablamdan üç yaş küçüğüm.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru24" value="D">
+     <label for="D"><b>D.</b> Ablamdan üç yıl sonra ben doğmuşum.</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru24" value="E">
+     <label for="E"><b>E.</b> Annem beni ablamdan üç yıl sonra doğurmuş. </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish --><!-- Excel Import Start -->
+<div class="questText"><span> </span> "Türkçeyi öğrenmek istiyorsanız ......................................."<br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilmelidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru25" value="A">
+     <label for="A"><b>A.</b> çok çalışmalıyız</label>
+                    </div>
+                 
+                    <div class="buttonText">
+     <input type="radio" id="B" name="soru25" value="B">
+     <label for="B"><b>B.</b> çok çalışmalısın</label></div>                    
+                    <div class="buttonText">
+     <input type="radio" id="C" name="soru25" value="C">
+     <label for="C"><b>C.</b> çok çalışmalısınız</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="D" name="soru25" value="D">
+     <label for="D"><b>D.</b> çok çalışmalı</label>
+                    </div>
+                    
+                    <div class="buttonText">
+                    <input type="radio" id="E" name="soru25" value="E">
+     <label for="E"><b>E.</b> çok çalışmalılar </label>
+                    </div>
+
+                </div>    </div>
+
+<!-- Excel Import Finish -->
+
+
+          
+
+
+       <!--  ________________________________________________SORULAR BU ALANA YAPIŞTIRILACAK_____________________________________________-->
+       <p id="result"></p>
+       <br>
+       <input type="submit" value="Sınavı Tamamla" >
+       
+       
+       </form>
+        </div>
+   
+    </div>
+
+</body>
+</html>
