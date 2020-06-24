@@ -17,60 +17,35 @@ jQuery( document ).ready(function( $ ) {
 	var request;
 	// bind to the submit event of our form
 	$("#sinav").submit(function(event){
-		
 		getDate();
-		
-		
-		// abort any pending request
 		if (request) {
 			request.abort();
 		}
-		// setup some local variables
 		var $form = $(this);
-		// let's select and cache all the fields
 		var $inputs = $form.find("input, select, button, textarea");
-		// serialize the data in the form
 		var serializedData = $form.serialize();
-	
-		// let's disable the inputs for the duration of the ajax request
-		// Note: we disable elements AFTER the form data has been serialized.
-		// Disabled form elements will not be serialized.
 		$inputs.prop("disabled", true);
 		$('#result').text('Sınavınız Kaydediliyor. Lütfen Bekleyiniz...');
-	
-		// fire off the request to /form.php
 		request = $.ajax({
 			url: "https://script.google.com/macros/s/AKfycbwVl9p681bICY_f3uwzDsTLD45c8TVCniN7dsfNBPN0o_t-7wA/exec",
 			type: "post",
 			data: serializedData
 		});
-	
-		// callback handler that will be called on success
 		request.done(function (response, textStatus, jqXHR){
-			// log a message to the console
 			$('#result').html('Sınavınız Başarıyla Kaydedildi. Sayfayı Kapatabilirsiniz');
 			alert('Sınavınız Tamamlanmıştır. Başarılar');
 			console.log("Sınav Kaydedildi");
 			window.location.href = 'http://tomer.kastamonu.edu.tr/';
 		});
-	
-		// callback handler that will be called on failure
 		request.fail(function (jqXHR, textStatus, errorThrown){
-			// log the error to the console
 			alert(
 				"Sınav Kaydı Esnasında Hata Oluştu "+
 				textStatus, errorThrown
 			);
 		});
-	
-		// callback handler that will be called regardless
-		// if the request failed or succeeded
 		request.always(function () {
-			// reenable the inputs
 			$inputs.prop("disabled", false);
 		});
-	
-		// prevent default posting of form
 		event.preventDefault();
 	});
 });
@@ -79,6 +54,34 @@ function getDate()
 var d = new Date();
     document.getElementById("time").value = d;
 }
+
+
+// GERİ SAYIM FONKSİYONU//
+var secondsRemaining;
+var intervalHandle;
+
+function tick(){
+	var timeDisplay = document.getElementById("timerText");
+	var min = Math.floor(secondsRemaining / 60);
+	var sec = secondsRemaining - (min * 60);
+	var message = min.toString() + ":" + sec;
+	timeDisplay.innerHTML = message;
+	if (secondsRemaining === 0)
+	{	
+		alert('Sınav Süresi Bitti');
+		$("#sinav").submit();
+		clearInterval(intervalHandle);
+	}
+	secondsRemaining--;
+}
+
+function startCountdown(){
+	var minutes = .2;//----------------------------------------------Sınav Süresi Ayarlama (Dakika Cinsinden)
+	secondsRemaining = minutes * 60;
+	intervalHandle = setInterval(tick, 1000);
+}
+
+// GERİ SAYIM FONKSİYONU BİTİŞ//
 </script>
 <!--                         Form Verileri Göderme Kodları               Bitiş-->
 
@@ -92,19 +95,21 @@ function disableF5(e) {
     };
 		
 	$(document).ready(function() {
-		document.getElementById("save").disabled = true;
 		
+		
+
+		document.getElementById("save").disabled = true;
 		navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia ||
         navigator.msGetUserMedia);
 
-navigator.getMedia({video: true}, function() {
+navigator.getMedia({video: true}, function() { 
  
 }, function() {
   alert('Kullanılabilir Bir Kamera Bulunamadı. Kamera Bağlanıtınız Olmadan Sınava Katılamazsınız');
   $('body').css("display","none");
-});
+}); 
 		
 	$("#canvas").css("width",screen.width/3);
 	$("#canvas").css("margin-left","0%");
@@ -131,6 +136,8 @@ for(var i = 0; i < cards.length; i++){
 }
 	
 });
+
+//--------------------------------------Sayfa Dışına Çıkmayı Engelleme Kodları-------------------------------------------
 
 
 
@@ -166,13 +173,14 @@ function foo() {
 				//alert(fotoCek+" "+fotoKaydet);
 				if(window.fotoCek==true && window.fotoKaydet==true)
 				{
-					
+					startCountdown();
 					$("#container").css("display","block");
 					$(".register").css("display","none");
 					document.getElementById("name").value=ad;
 					document.getElementById("surname").value=soyad;
 					document.getElementById("numb").value=ogrno;
-					stopCam();
+					window.startExam=true;
+					stopCam();		
 					
 				}
 				
@@ -188,6 +196,65 @@ function foo() {
 		}
 	}
 }
+
+
+
+
+</script>
+
+<script type="text/javascript">
+	
+    $(document).ready(function() {
+		var startExam;
+		
+        $(document).on("keydown", disableF5);
+	$('body').mousedown(function(e) {
+    if (e.which === 3) {
+        alert('rightclick'); /* Right Mousebutton was clicked! */
+    }
+});
+    var sayfa = 0;
+    $('#container').mouseleave(function() {
+		alert('durrrrr'+startExam);
+		if(window.startExam==true)
+		{
+			sayfa++;
+            if (sayfa < 2) {
+                window.moveTo(0, 0);
+                window.resizeTo(screen.availWidth, screen.availHeight);
+
+                $('#container').animate({
+                    opacity: 0
+                }, 2);
+
+                $('#container').animate({
+                    opacity: 0.001
+                }, 60000);
+                $('#container').animate({
+                    opacity: 1
+                }, 1);
+                alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');
+            } 
+			
+			else {
+                window.moveTo(0, 0);
+                window.resizeTo(screen.availWidth, screen.availHeight);
+                $('#container').animate({
+                    opacity: 0
+                }, 2);
+
+                $('#container').animate({
+                    opacity: 0.001
+                }, 600000);
+                $('#container').animate({
+                    opacity: 1
+                }, 1);
+                alert('Sınav Esnasında Toplamda 2 Kere Soru Sayfasını Terk Ettiğiniz İçin 60dk Boyunca Soruları Görüntüleyemeyeceksiniz');
+            }
+		}
+ 
+    }); 
+});
 
 
 </script>
@@ -321,9 +388,6 @@ $.ajax({
 }
 
 
-
-
-
 </script>
 
 <!-- Kamera Kodları Bitiş-->
@@ -339,15 +403,20 @@ $.ajax({
     <input type="text" id="ogrno" name="ogrno" placeholder="Öğrenci Numaranız Alanını Boş Bırakamazsınız">
     
     <input type="submit" value="Sınava Başla" onclick="return foo();return stopCam();">
-    
+
+     
 </div>
 
 	<div id="container">
 
      	<div id="dinleme">
-        	BU ALANDA DİNLEME KAYITLARI YER ALACAK
+        	
+        	BU ALANDA DİNLEME KAYITLARI YER ALACAK<br>
+           
         </div>
-        
+
+
+			<div id="timer">Sınavın<br>Bitmesine<h1 id="timerText">0:00</h1>Kaldı</div>
         <div class="questBar">
         <!--  ________________________________________________SORULAR BU ALANA YAPIŞTIRILACAK_____________________________________________-->
         	
@@ -361,7 +430,7 @@ $.ajax({
         
        
             <!-- Excel Import Start -->
-<div class="questText"><span> </span> Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br>      Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br> (İlk 4 soruyu metne göre cevaplayınız.)<br><br>Şeyma kaç yaşında? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru1" value="A">
+<div class="questText"><span> </span> <p>Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br> <p>Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br><br>Şeyma kaç yaşında? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru1" value="A">
      <label for="A"><b>A.</b>16 yaşında </label>
                     </div>
                  
@@ -386,7 +455,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span>Şeyma  nerede yaşıyor?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru2" value="A">
+<div class="questText"><span> </span> <p>Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br> <p>Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br><br> Şeyma  nerede yaşıyor?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru2" value="A">
      <label for="A"><b>A.</b> Evde</label>
                     </div>
                  
@@ -411,7 +480,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span>Şeyma ne iş yapıyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru3" value="A">
+<div class="questText"><span> </span><p>Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br> <p>Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br><br>Şeyma ne iş yapıyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru3" value="A">
      <label for="A"><b>A.</b> Pilot</label>
                     </div>
                  
@@ -436,7 +505,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span>Şeyma'nın dersi saat kaçta bitiyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru4" value="A">
+<div class="questText"><span> </span><p>Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br> <p>Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br><br>Şeyma'nın dersi saat kaçta bitiyor? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru4" value="A">
      <label for="A"><b>A.</b>9.00'da</label>
                     </div>
                  
@@ -611,7 +680,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span>Aşağıda verilen metinde yanlış  kullanılmış kelime hangisidir?<br> "Seninle seyrettiğimiz filmi hiç unutamıyorum. Hele o çarpışma sahnesindeki üç arabalar nasıl takla attı!Yine birlikte sinemaya gidelim mi, ne dersin?"<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru11" value="A">
+<div class="questText"><span> </span>Aşağıda verilen metinde yanlış  kullanılmış kelime hangisidir?<br> <br>"Seninle seyrettiğimiz filmi hiç unutamıyorum. Hele o çarpışma sahnesindeki üç arabalar nasıl takla attı!Yine birlikte sinemaya gidelim mi, ne dersin?"<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru11" value="A">
      <label for="A"><b>A.</b> seninle  </label>
                     </div>
                  
@@ -711,7 +780,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span> Aşağıdaki boşluklara hangi kelimeler getirilmelidir?<br>   Ben futbol ___ ve gitar ___.<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru15" value="A">
+<div class="questText"><span> </span> Aşağıdaki boşluklara hangi kelimeler getirilmelidir?<br> <br>  Ben futbol ___ ve gitar ___.<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru15" value="A">
      <label for="A"><b>A.</b>çalabilirim/oynayabilirim</label>
                     </div>
                  
@@ -861,7 +930,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span> "Babamın erkek kardeşi ile ablamın kocası kaza yapmışlar."<br>Yukarıdaki cümleye göre kimler kaza yapmıştır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru21" value="A">
+<div class="questText"><span> </span> "Babamın erkek kardeşi ile ablamın kocası kaza yapmışlar."<br><br>Yukarıdaki cümleye göre kimler kaza yapmıştır?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru21" value="A">
      <label for="A"><b>A.</b> Dayım - Kuzenim</label>
                     </div>
                  
@@ -911,7 +980,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span> "Öğretmenimizin bize dediklerinin doğru olduğunu ......................."<br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilemez?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru23" value="A">
+<div class="questText"><span> </span> "Öğretmenimizin bize dediklerinin doğru olduğunu ......................."<br><br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilemez?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru23" value="A">
      <label for="A"><b>A.</b> inanıyoruz</label>
                     </div>
                  
@@ -961,7 +1030,7 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
-<div class="questText"><span> </span> "Türkçeyi öğrenmek istiyorsanız ......................................."<br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilmelidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru25" value="A">
+<div class="questText"><span> </span> "Türkçeyi öğrenmek istiyorsanız ......................................."<br><br>Bu cümlede boş bırakılan yere aşağıdakilerden hangisi getirilmelidir?<div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru25" value="A">
      <label for="A"><b>A.</b> çok çalışmalıyız</label>
                     </div>
                  
@@ -986,6 +1055,8 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish -->
+
+
 
 
           
