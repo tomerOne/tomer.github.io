@@ -76,7 +76,7 @@ function tick(){
 }
 
 function startCountdown(){
-	var minutes = .2;//----------------------------------------------Sınav Süresi Ayarlama (Dakika Cinsinden)
+	var minutes = 25;//----------------------------------------------Sınav Süresi Ayarlama (Dakika Cinsinden)
 	secondsRemaining = minutes * 60;
 	intervalHandle = setInterval(tick, 1000);
 }
@@ -215,7 +215,6 @@ function foo() {
 });
     var sayfa = 0;
     $('#container').mouseleave(function() {
-		alert('durrrrr'+startExam);
 		if(window.startExam==true)
 		{
 			sayfa++;
@@ -411,7 +410,7 @@ $.ajax({
 
      	<div id="dinleme">
         	
-        	BU ALANDA DİNLEME KAYITLARI YER ALACAK<br>
+        	SINAV SÜRESİNCE BU SAYFAYI TERK ETMEYİNİZ<br>
            
         </div>
 
@@ -1075,3 +1074,4 @@ $.ajax({
 
 </body>
 </html>
+
