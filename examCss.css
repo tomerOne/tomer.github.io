@@ -34,12 +34,13 @@
 {
 	text-align:center;
 	margin: auto;
-	color:#000;
-	font-size:24px;	
+	color:#FFF;
+	font-size:3em;	
 	box-shadow: 3px 3px 10px 5px black;
 	border-radius:5px;
-	width:70vw;
-	height:auto;
+	width:100vw;
+	height:4%;
+	background-color:#900;
 	
 }
 #timerFrame
