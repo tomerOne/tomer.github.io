@@ -4,27 +4,27 @@
 <meta charset="utf-8">
 <title>TÖMER</title>
 <script>
-if(screen.width<screen.height)
-{
-			alert('cep telefonu');	
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+if (isMobile) {
+  alert('Sınava Cep Telefonu ile Katılamazsınız');
+  
 }
+
 else
 {
-var exam="";
-function goPage() 
-	{
-	var params = [
-    	'height='+screen.height,
-    	'width='+screen.width,
-    	'fullscreen=yes' // only works in IE, but here for completeness
-	].join(',');
+	var exam="";
+function goPage() {
+var params = [
+    'height='+screen.height,
+    'width='+screen.width,
+    'fullscreen=yes' // only works in IE, but here for completeness
+].join(',');
      // and any other options from
      // https://developer.mozilla.org/en/DOM/window.open
 
 var popup = window.open('myExam.html', 'popup_window', params); 
 popup.moveTo(0,0);
-
-	}		
+}
 }
 
 </script>
