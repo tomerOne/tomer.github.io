@@ -4,23 +4,28 @@
 <meta charset="utf-8">
 <title>TÖMER</title>
 <script>
-
-
-var exam="";
-function goPage() {
-var params = [
-    'height='+screen.height,
-    'width='+screen.width,
-    'fullscreen=yes' // only works in IE, but here for completeness
-].join(',');
+if(screen.width<screen.height)
+{
+			alert('cep telefonu');	
+}
+else
+{
+ar exam="";
+function goPage() 
+	{
+	var params = [
+    	'height='+screen.height,
+    	'width='+screen.width,
+    	'fullscreen=yes' // only works in IE, but here for completeness
+	].join(',');
      // and any other options from
      // https://developer.mozilla.org/en/DOM/window.open
 
 var popup = window.open('myExam.html', 'popup_window', params); 
 popup.moveTo(0,0);
-localStorage.setItem("exam", "butondan");
-}
 
+	}		
+}
 
 </script>
 <style>
