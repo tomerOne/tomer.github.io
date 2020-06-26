@@ -91,12 +91,11 @@ function startCountdown(){
 		var fotoCek=false;
 		var fotoKaydet=false;
 function disableF5(e) {
-        if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 17) e.preventDefault();
+        if ((e.which || e.keyCode) == 116 ||(e.which || e.keyCode)==123|| (e.which || e.keyCode) == 17)  e.preventDefault();
     };
 		
 	$(document).ready(function() {
-		
-		
+
 
 		document.getElementById("save").disabled = true;
 		navigator.getMedia = ( navigator.getUserMedia || // use the proper vendor prefix
@@ -173,13 +172,13 @@ function foo() {
 				//alert(fotoCek+" "+fotoKaydet);
 				if(window.fotoCek==true && window.fotoKaydet==true)
 				{
-					startCountdown();
-					$("#container").css("display","block");
+					//startCountdown();
+					$("#dogrulama").css("display","block");
 					$(".register").css("display","none");
 					document.getElementById("name").value=ad;
 					document.getElementById("surname").value=soyad;
 					document.getElementById("numb").value=ogrno;
-					window.startExam=true;
+					//window.startExam=true;
 					stopCam();		
 					
 				}
@@ -187,17 +186,13 @@ function foo() {
 				else 
 				{
 					alert('Fotoğraf Kaydetme İşlemi Yapmadan Sınava Başlayamazsınız');
-					alert(fotoCek+"Foto Çekin Durumu");
-					alert(fotoKaydet+"FotoKaydetin Durumu");
-					
+										
 				}
 	
 			}
 		}
 	}
 }
-
-
 
 
 </script>
@@ -210,7 +205,7 @@ function foo() {
         $(document).on("keydown", disableF5);
 	$('body').mousedown(function(e) {
     if (e.which === 3) {
-        alert('rightclick'); /* Right Mousebutton was clicked! */
+        alert('Sağ Tıklama Engellenmiştir'); /* Right Mousebutton was clicked! */
     }
 });
     var sayfa = 0;
@@ -218,9 +213,8 @@ function foo() {
 		if(window.startExam==true)
 		{
 			sayfa++;
-            if (sayfa < 2) {
-
-
+            if (sayfa>1 && sayfa < 3) {
+                
                 $('#container').animate({
                     opacity: 0
                 }, 2);
@@ -234,8 +228,9 @@ function foo() {
                 alert('Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacak');
             } 
 			
-			else {
-
+			else if (sayfa>2 && sayfa <= 3)
+			{
+          
                 $('#container').animate({
                     opacity: 0
                 }, 2);
@@ -253,7 +248,130 @@ function foo() {
     }); 
 });
 
+//-------------------------------------------------------TAKE FROM SPREADSHEET------------------------------------------------------
 
+function checkSpread()
+{
+var url = "https://spreadsheets.google.com/feeds/cells/1Brx4BKoxCfNqLQriyHaIkyqoQPvLOmK2iudwubBaZhY/1/public/full?alt=json&range=BM1&single=true"
+
+var ajax = new XMLHttpRequest();
+ajax.open("GET", url, true);
+ajax.send(null);
+	ajax.onreadystatechange = function () 
+	{
+
+     	if (ajax.readyState == 4 && (ajax.status == 200)) 
+	 	{   
+        var obj = JSON.parse(ajax.responseText);
+        var fromSpread=(obj.feed.entry[0].content.$t);
+		var textBox=document.getElementById("dogKod2").value;
+
+			if(textBox==fromSpread)
+			{
+				
+				
+				$("#dogrulama").css("display","none");
+				$("#container").css("display","block")
+				
+				startCountdown();
+				
+				
+	
+  var elem = document.documentElement;
+  if (elem.requestFullscreen) 
+  {
+    elem.requestFullscreen();
+
+  } 
+  else if (elem.msRequestFullscreen) 
+  {
+    elem.msRequestFullscreen();
+  } 
+  else if (elem.mozRequestFullScreen) 
+  {
+    elem.mozRequestFullScreen();
+  } 
+  else if (elem.webkitRequestFullscreen) 
+  {
+    elem.webkitRequestFullscreen();
+  }
+
+
+window.startExam=true;
+
+	
+			}
+			else
+			{
+				alert('Sınav Giriş Kodunu Yanlış Girdiniz');
+				$("#dogKod2").val("");
+			}
+
+    	}
+		 else 
+	 	{
+        console.log("not ready yet")            
+    	}
+	}
+
+}
+
+//-------------------------------------------------------TAKE FROM SPREADSHEET BİTİŞ------------------------------------------------------
+
+
+
+// ------------------------------------SES DOSYASI EKLEME----------------------------------------------
+
+
+
+
+    var obj = document.createElement("audio");
+    obj.src = "https://www.w3schools.com/jsref/horse.mp3";
+    obj.volume = .5;
+    obj.autoPlay = false;
+    obj.preLoad = true;
+    obj.controls = true;
+
+
+    $(document).ready(function() {
+
+        var i = 0;
+        $("div.header").find("#play0").click(function() {
+            i++;
+            if (i < 3) {
+                obj.play();
+                document.getElementById("play0").style.visibility = "hidden";
+                if (i < 2) {
+                    document.getElementById("play1").style.visibility = "visible";
+                } else {
+                    document.getElementById("play0").style.visibility = "visible";
+                }
+
+
+                obj.onended = function() {
+                    alert("dinleme bitti");
+                    document.getElementById("play0").style.visibility = "visible";
+                    document.getElementById("play1").style.visibility = "hidden";
+                }
+            } else {
+                alert("Ses Kaydını Toplamda İki Kez Dinlediniz Daha Fazla Dinleyemezsiniz");
+                document.getElementById("play0").style.visibility = "visible";
+                document.getElementById("play1").style.visibility = "hidden";
+            }
+
+        });
+
+        $("div.header").find("#pause0").click(function() {
+            obj.pause();
+        });
+        $("div.header").find("#stop0").click(function() {
+            obj.pause();
+            obj.currentTime = 0;
+        });
+    });
+
+
+//------------------------------------SES DOSYASI EKLEME BİTİTŞ----------------------------------------
 </script>
 <!--   F5 pasif, TextBox Maskları, Sınav Verileri Toplama Kodları  Bitiş    -->
 </head>
@@ -268,24 +386,22 @@ function foo() {
 <body oncontextmenu="return false;">
 
 <div class="register">
-<div id="genelWrap">
-<div class="video-wrap">
-	<video id="video" style="margin:auto" playsinline autoplay> deneme</video>
+	<div id="genelWrap">
+		<div class="video-wrap">
+			<video id="video" style="margin:auto" playsinline autoplay> deneme</video>
 
-</div>
+		</div>
+		<canvas id="canvas" width="600" height="480" style="margin:auto"></canvas>
 
-
-<canvas id="canvas" width="600" height="480" style="margin:auto"></canvas>
-
-</div>
+	</div>
 
 
-<div class="controller">
+	<div class="controller">
     <button id="snap" >FOTO ÇEK</button>
     <label for="imgur" id="imgurlbl" style="text-align:center"> </label>
     <button id="save" onClick="share();">KAYDET</button>
-</div>
-<div id="inText"> <b>Sınava Başlayabilmeniz İçin:</b> <br> 1. Ekranın solunda yer alan kamera görüntüsünde yüzünüz net bir şekilde görünürken 'FOTO ÇEK' butonuna tıklayın. <br>2. Ekranınızın sağında yer alan siyah çerçeve içerisinde yüzünüzün net bir şekilde göründüğü fotoğraf oluştuktan sonra 'KAYDET' butonuna basın.<br>3. Adınızı girin.<br>4.Soyadınızı girin.<br> 5.Öğrenci Numaranızı girin.<br>6. Sayfanın altında yer alan<b> "Sınava Başla"</b> butonuna basın.</div>
+	</div>
+	<div id="inText"> <b>Sınava Başlayabilmeniz İçin:</b> <br> 1. Ekranın solunda yer alan kamera görüntüsünde yüzünüz net bir şekilde görünürken 'FOTO ÇEK' butonuna tıklayın. <br>2. Ekranınızın sağında yer alan siyah çerçeve içerisinde yüzünüzün net bir şekilde göründüğü fotoğraf oluştuktan sonra 'KAYDET' butonuna basın.<br>3. Adınızı girin.<br>4.Soyadınızı girin.<br> 5.Öğrenci Numaranızı girin.<br>6. Sayfanın altında yer alan<b> "Sınava Başla"</b> butonuna basın.</div>
 <!--  Kamera Kodları-->
 
 <script>
@@ -399,21 +515,35 @@ $.ajax({
     <label for="ogrno" style="text-align:center">Öğrenci_Numaranız</label>
     <input type="text" id="ogrno" name="ogrno" placeholder="Öğrenci Numaranız Alanını Boş Bırakamazsınız">
     
-    <input type="submit" value="Sınava Başla" onclick="return foo();return stopCam();">
+    <input type="submit" value="Kullanıcı Kaydı Tamamla" onclick="return foo();return stopCam();">
 
      
-</div>
+	</div>
+    
+    <div id="dogrulama">
+    	<div id="dogrulamaInText">
+        	<br><br><br>Sınav Kaydınız Tamamlanmıştır.<br><br> Şimdi Zoom'u Açabilirsiniz.<br><br> Sınav Giriş Kodu Zoom Üzerinden Öğretmeniniz Tarafından Verilecektir.<br><br><br><br>
+        
+        </div>
+    
+    <label for="dogKod" style="text-align:center" style="font-weight:bolder">Sınav Giriş Kodu:</label>
+    <input type="text" id="dogKod2" name="dogKod2" placeholder="Sınav Giriş Kodunu Giriniz...">    
+    <input id="dogKod3" type="submit" value="Sınava Başla" onclick="return checkSpread();"> 
+    </div>
+
+
 
 	<div id="container">
 
      	<div id="dinleme">
         	
-        	SINAV SÜRESİNCE BU SAYFAYI TERK ETMEYİNİZ<br>
+        	SINAV SÜRESİNCE BU SAYFAYI TERK ETMEYİNİZ ve "ESC", "F11" TUŞLARINA BASMAYINIZ<br>
            
         </div>
 
 
 			<div id="timer">Sınavın<br>Bitmesine<h1 id="timerText">0:00</h1>Kaldı</div>
+            <br><br><br>
         <div class="questBar">
         <!--  ________________________________________________SORULAR BU ALANA YAPIŞTIRILACAK_____________________________________________-->
         	
@@ -425,6 +555,21 @@ $.ajax({
         <input type="hidden" id="photo" name="photo" value=""> 
         <input type="hidden" id="time" name="time" value="">    
         
+       
+       
+       
+       <div class="header" >
+    <div id="play0" style="font: bold 16px Arial; color:white;background-color: #f44336;padding: 15px 32px;border: none; text-align:center;"> SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
+    <div id="play1" style="font: bold 16px Arial; color:white;background-color: black;padding: 15px 32px;border: none; text-align:center; visibility:hidden;"> SES DOSYASINI ÇALMA İŞLEMİ BİTTİĞİNDE DİNLEME İŞLEMİ SON BİR KEZ DAHA GERÇEKLEŞTİRİLEBİLECEKTİR.</div>
+    <div>(Ses Dosyası Yalnızca İki Kez Dinlenebilir!)</div>
+    <div><br></div>
+    <div>
+    </div>
+</div>
+       
+       
+       
+       
        
             <!-- Excel Import Start -->
 <div class="questText"><span> </span> <p>Benim adım Şeyma. Ben 27 yaşındayım  ve öğretmenim. Kayseri'de yaşıyorum. Evliyim. Eşimin adı Eren. O şoför. Her gün sabahtan akşama kadar araba sürüyor. Şimdi hava çok sıcak ve trafik çok kalabalık. O çok yoruluyor. Beş sene önce öğrenciydi. O zaman her şey çok kolaydı ama şimdi zor. <br> <p>Ben her sabah 9.00'da kalkıyorum. Kahvaltı yapıyorum ve evden çıkıyorum. Okula otobüsle gidiyorum. 11.00'de derse başlıyorum. Ders 11.00'den 16.00'ya kadar sürüyor. Ben çok yorulmuyorum çünkü çocukları çok seviyorum.<br><br>Şeyma kaç yaşında? <div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru1" value="A">
@@ -602,6 +747,11 @@ $.ajax({
                 </div>    </div>
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
+
+
+
+
+
 <div class="questText"><span> </span> Aşağıdaki cümlede boş yerlere hangi<u> isim hal ekleri</u> gelmelidir?<br><div class="buttonBar"><div class="buttonText"><input type="radio" id="A" name="soru8" value="A">
      <label for="A"><b>A.</b>[-den/-dan, -e/-a]</label>
                     </div>
@@ -1072,4 +1222,5 @@ $.ajax({
 
 </body>
 </html>
+
 
