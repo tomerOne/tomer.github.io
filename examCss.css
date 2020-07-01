@@ -26,7 +26,7 @@
 	width:70vw;
 	height:auto;
 	margin: auto;
-	margin-top:50px;	
+	margin-top:10%;	
 	box-shadow: 3px 3px 10px 5px black;
 	border-radius:5px;
 	padding:1%;
@@ -45,8 +45,11 @@
 	background-color:#900;
 	position:fixed;
 	z-index:1000;
+	padding:5%;
 	
 }
+
+
 #timerFrame
 {
 	width:auto;
@@ -259,6 +262,53 @@ margin:auto;
 	font-size:24px;	
 		
 }
+
+#attent
+{
+	position:absolute;
+	width:50%;
+	height:auto;
+	background-color:#F00;
+	color:#FFF;
+	font-size:3em;
+	text-align:center;
+	display:none;
+	margin-top:5%;
+	margin-left:25%;
+	border-radius:50px;
+	padding-top:5%;
+	padding-left:3%;
+	padding-right:3%;
+	padding-bottom:5%;
+	animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: .5;
+  }
+}
+
+#attentTwo
+{
+	position:absolute;
+	width:20%;
+	height:auto;
+	background-color:#F00;
+	color:#FFF;
+	font-size:2em;
+	text-align:center;
+	display:none;
+	margin-top:25%;
+	margin-left:40%;
+	border-radius:0px;
+	padding-top:1%;
+	padding-left:1%;
+	padding-right:1%;
+	padding-bottom:1%;
+	z-index:1000;
+}
+
 
 
 </style>
