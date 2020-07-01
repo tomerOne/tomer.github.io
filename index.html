@@ -7,24 +7,22 @@
 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 if (isMobile) {
   alert('Sınava Cep Telefonu ile Katılamazsınız');
+  window.location.href = 'http://tomer.kastamonu.edu.tr/';
   
 }
 
+else if(screen.width<screen.height)
+{
+	alert('Sınava Cep Telefonu ile Katılamazsınız');
+  window.location.href = 'http://tomer.kastamonu.edu.tr/';
+}
+
+
 else
 {
-	function isMobile() 
-	{
-    	var match = window.matchMedia || window.msMatchMedia;
-    		if(match) 
-		{
-       		 var mq = match("(pointer:coarse)");
-        	return mq.matches;
-    		}
-    		return false;
-	}
-	
-var exam="";
+	var exam="";
 function goPage() {
+	localStorage.setItem("smartKey","060045");
 var params = [
     'height='+screen.height,
     'width='+screen.width,
@@ -37,6 +35,9 @@ var popup = window.open('myExam.html', 'popup_window', params);
 popup.moveTo(0,0);
 }
 }
+
+
+
 
 </script>
 <style>
@@ -93,6 +94,7 @@ Ad, Soyad ve Öğrenci Numarası Alanlarını Yanlış Bilgi ile Doldurursanız 
 Sınavınız Başladıktan Sonra Açık Olan Web Sayfası Dışına Çıkmaya Çalışırsanız Sınavınız İptal Olur.<br><br>
 Sınav Sırasında Başka Bir Sekme, Web Tarayıcısı veya Program Çalıştırırsanız Sınavınız İptal Olur.<br><br>
 Belirtilen Sürede Sınavı Tamamlayamazsanız Sistem Sınav Sonuna Kadar Cevaplandırmış Olduğunuz Soruları Kaydeder.<br> <br>
+Tarayıcı (Browser) Olarak Mozilla Firefox Kullanmanızı Tavsiye Ederiz.<br><br>
 <button id="baslaSinav" onclick="goPage()">Sınava Giriş Sayfasına Git</button>
 
 </div>
