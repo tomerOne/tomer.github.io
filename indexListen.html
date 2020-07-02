@@ -20,24 +20,34 @@ else if(screen.width<screen.height)
 
 else
 {
-	var exam="";
-function goPage() {
-	localStorage.setItem("smartKey","060045");
-var params = [
-    'height='+screen.height,
-    'width='+screen.width,
-    'fullscreen=yes' // only works in IE, but here for completeness
-].join(',');
-     // and any other options from
-     // https://developer.mozilla.org/en/DOM/window.open
+	
 
-var popup = window.open('myExamListen.html', 'popup_window', params); 
-popup.moveTo(0,0);
-}
-}
+	if (navigator.userAgent.indexOf("Firefox") != -1) 
+	{		
+		var exam="";
+		function goPage() 
+			{
+			localStorage.setItem("smartKey","060045");
+			var params = [
+    		'height='+screen.height,
+    		'width='+screen.width,
+    		'fullscreen=yes' // only works in IE, but here for completeness
+			].join(',');
+     
 
+			var popup = window.open('myExam.html', 'popup_window', params); 
+			popup.moveTo(0,0);
+		}
+	}
+	
+	else
+ 	{
+	 	alert("Sınava Yalnızca Mozilla Firefox Browser Kullanarak Girebilirsiniz");
+		 window.location.href = 'http://tomer.kastamonu.edu.tr/';
+		
+ 	}
 
-
+ }
 
 </script>
 <style>
