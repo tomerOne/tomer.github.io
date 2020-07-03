@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Sınav Ekranı</title>
-<link rel="stylesheet" type="text/css" href="examCss.css" />
+<link rel="stylesheet" type="text/css" href="examCssListen.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
 
@@ -262,7 +262,7 @@ function foo() {
 				document.getElementById("attent").innerHTML="Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacaktır.";
 				
 				window.startExam=false;
-				setTimeout(function() { bodyDel(); }, 20000);
+				setTimeout(function() { bodyDel(); }, 60000);
             } 
 			
 			else if (sayfa>=2)
@@ -393,21 +393,23 @@ ajax.send(null);
                 obj.play();
 				
                 document.getElementById("play0").style.visibility = "hidden";
+				
+				
                 if (i < 2) 
 				{
                     document.getElementById("play1").style.visibility = "visible";
                 } 
 				else 
 				{
-                    document.getElementById("play0").style.visibility = "visible";
-					$("#play3").css("visibility","visible");
-					$("#play5").css("visibility","visible");
+                    document.getElementById("play0").style.visibility = "hidden";
+					document.getElementById("play1").style.visibility = "visible";
+					document.getElementById("play1").innerHTML="BU SES KAYDINI 2. KEZ DİNLİYORSUNUZ. DİNLEME HAKKINIZ BİTTİ";
                 }
 
 
                 obj.onended = function() 
 				{
-                    document.getElementById("soundAttent").innerHTML="Ses Kaydı Dinlemesi Bitti";
+                    
                     document.getElementById("play0").style.visibility = "visible";
                     document.getElementById("play1").style.visibility = "hidden";
 					$("#play3").css("visibility","visible");
@@ -416,9 +418,10 @@ ajax.send(null);
             } 
 			else
 			{
-                document.getElementById("soundAttent").innerHTML="Ses Kaydını Toplamda 2 Kez Dinlediniz. Daha Fazla Dinleme Yapılamaz!!!";
-                document.getElementById("play0").style.visibility = "visible";
-                document.getElementById("play1").style.visibility = "hidden";
+               
+                document.getElementById("play0").style.visibility = "hidden";
+				document.getElementById("play1").style.visibility = "visible";
+				document.getElementById("play1").innerHTML="BU SES KAYDINI TOPLAMDA 2. KEZ DİNLEDİNİZ. DAHA FAZLA DİNLEYEMEZSİNİZ";
 				$("#play3").css("visibility","visible");
 				$("#play5").css("visibility","visible");
             }
@@ -453,15 +456,13 @@ ajax.send(null);
                 if (k < 2) 
 				{
                     document.getElementById("play4").style.visibility = "visible";
-					$("#play0").css("visibility","hidden");
-					$("#play5").css("visibility","hidden");
                 } 
 				else 
 				{
-                    document.getElementById("play3").style.visibility = "visible";
+                    document.getElementById("play3").style.visibility = "hidden";
+					document.getElementById("play4").style.visibility = "visible";
+					document.getElementById("play4").innerHTML="BU SES KAYDINI 2. KEZ DİNLİYORSUNUZ. DİNLEME HAKKINIZ BİTTİ";
 					//obj.src="http://tomer.kastamonu.edu.tr/wp-content/uploads/2020/07/Dinleme-2.mp3";
-					$("#play0").css("visibility","visible");
-					$("#play5").css("visibility","visible");
                 }
 
 
@@ -478,8 +479,9 @@ ajax.send(null);
 			else 
 			{
                 //document.getElementById("soundAttent").innerHTML="Ses Kaydını Toplamda 2 Kez Dinlediniz. Daha Fazla Dinleme Yapılamaz!!!";
-                document.getElementById("play3").style.visibility = "visible";
-                document.getElementById("play4").style.visibility = "hidden";
+                document.getElementById("play3").style.visibility = "hidden";
+				document.getElementById("play4").style.visibility = "visible";
+				document.getElementById("play4").innerHTML="BU SES KAYDINI TOPLAMDA 2. KEZ DİNLEDİNİZ. DAHA FAZLA DİNLEYEMEZSİNİZ";
 				$("#play0").css("visibility","visible");
 				$("#play5").css("visibility","visible");
 				obj.src="";
@@ -516,15 +518,13 @@ ajax.send(null);
                 if (m < 2) 
 				{
                     document.getElementById("play6").style.visibility = "visible";
-					$("#play0").css("visibility","hidden");
-					$("#play3").css("visibility","hidden");
                 } 
 				else 
 				{
-                    document.getElementById("play5").style.visibility = "visible";
+                    document.getElementById("play5").style.visibility = "hidden";
+					document.getElementById("play6").style.visibility = "visible";
+					document.getElementById("play6").innerHTML="BU SES KAYDINI 2. KEZ DİNLİYORSUNUZ. DİNLEME HAKKINIZ BİTTİ"
 					//obj.src="http://tomer.kastamonu.edu.tr/wp-content/uploads/2020/07/Dinleme-3.mp3";
-					$("#play0").css("visibility","visible");
-					$("#play3").css("visibility","visible");
                 }
 
 
@@ -541,8 +541,9 @@ ajax.send(null);
 			else 
 			{
                 //document.getElementById("soundAttent").innerHTML="Ses Kaydını Toplamda 2 Kez Dinlediniz. Daha Fazla Dinleme Yapılamaz!!!";
-                document.getElementById("play5").style.visibility = "visible";
-                document.getElementById("play6").style.visibility = "hidden";
+                document.getElementById("play5").style.visibility = "hidden";
+				document.getElementById("play6").style.visibility = "visible";
+				document.getElementById("play6").innerHTML="BU SES KAYDINI TOPLAMDA 2. KEZ DİNLEDİNİZ. DAHA FAZLA DİNLEYEMEZSİNİZ";
 				$("#play0").css("visibility","visible");
 				$("#play3").css("visibility","visible");
 				obj.src="";
@@ -713,7 +714,7 @@ $.ajax({
     
     <div id="dogrulama">
     	<div id="dogrulamaInText">
-        	<br><br><br>Sınav Kaydınız Tamamlanmıştır.<br><br> Şimdi Zoom'u Açabilirsiniz.<br><br> Sınav Giriş Kodu Zoom Üzerinden Öğretmeniniz Tarafından Verilecektir.<br><br><br><br>
+        	<br><br><br>Sınav Kaydınız Tamamlanmıştır.<br><br>  Sınav Giriş Kodu Zoom Üzerinden Öğretmeniniz Tarafından Verilecektir.<br><br><br><br>
         
         </div>
     
@@ -735,7 +736,7 @@ $.ajax({
 
 
 			<div id="timer">Sınavın<br>Bitmesine<h1 id="timerText">0:00</h1>Kaldı</div>
-            <br><br><br>
+            <br>
         <div class="questBar">
         <!--  ________________________________________________SORULAR BU ALANA YAPIŞTIRILACAK_____________________________________________-->
         	
@@ -752,12 +753,13 @@ $.ajax({
        
        
        <div class="header" >
-    <div id="play0" style="font: bold 16px Arial; color:white;background-color: #0F0;padding: 15px 32px;border: none; text-align:center;"> <b>Dinleme 1
+    <div id="play0" style="font: bold 16px Arial; color:black;background-color: #0F0;padding: 15px 32px;border: none; text-align:center;"> <b>Dinleme 1
 GENÇLER İÇİN KARİYER Mİ, EVLİLİK Mİ?</b>
 SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
     <div id="play1" style="font: bold 16px Arial; color:white;background-color: black;padding: 15px 32px;border: none; text-align:center; visibility:hidden;"> SES DOSYASINI ÇALMA İŞLEMİ BİTTİĞİNDE DİNLEME İŞLEMİ SON BİR KEZ DAHA GERÇEKLEŞTİRİLEBİLECEKTİR.</div>
     <div id="soundAttent">(Ses Dosyası Yalnızca İki Kez Dinlenebilir!)</div>
-    <div><br></div>
+    <center><p1 style="text-align:center; color:black;font-size:1em;">1. DİNLEME KAYDINA AİT SORULAR</p1></center>
+
     <div>
     </div>
 </div>
@@ -903,10 +905,11 @@ SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
 
 <!-- ____________________________________________________DİNLEME 2__________________________________________________________-->
 
-<div id="play3" style="font: bold 16px Arial; color:white;background-color: #0F0;padding: 15px 32px;border: none; text-align:center; margin-top:1%;"> <b>Dinleme 2
+<div id="play3" style="font: bold 16px Arial; color:white;background-color: #0F0;padding: 15px 32px;border: none; text-align:center; margin-top:1%;""> <b>Dinleme 2
 SİNEMA KUŞAĞI</b>
 SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
     <div id="play4" style="font: bold 16px Arial; color:white;background-color: black;padding: 15px 32px;border: none; text-align:center; visibility:hidden;"> SES DOSYASINI ÇALMA İŞLEMİ BİTTİĞİNDE DİNLEME İŞLEMİ SON BİR KEZ DAHA GERÇEKLEŞTİRİLEBİLECEKTİR.</div>
+    <center><p1 style="text-align:center; color:black;font-size:1em;">2. DİNLEME KAYDINA AİT SORULAR</p1></center>
 
 
 <!-- Excel Import Finish --><!-- Excel Import Start -->
@@ -1023,6 +1026,7 @@ SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
 TÜRK ÇALGILARI</b>
 SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
     <div id="play6" style="font: bold 16px Arial; color:white;background-color: black;padding: 15px 32px;border: none; text-align:center; visibility:hidden;"> SES DOSYASINI ÇALMA İŞLEMİ BİTTİĞİNDE DİNLEME İŞLEMİ SON BİR KEZ DAHA GERÇEKLEŞTİRİLEBİLECEKTİR.</div>
+    <center><p1 style="text-align:center; color:black;font-size:1em;">3. DİNLEME KAYDINA AİT SORULAR</p1></center>
     
     
     
