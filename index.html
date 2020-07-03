@@ -20,24 +20,35 @@ else if(screen.width<screen.height)
 
 else
 {
-	var exam="";
-function goPage() {
-	localStorage.setItem("smartKey","060045");
-var params = [
-    'height='+screen.height,
-    'width='+screen.width,
-    'fullscreen=yes' // only works in IE, but here for completeness
-].join(',');
-     // and any other options from
-     // https://developer.mozilla.org/en/DOM/window.open
+	
 
-var popup = window.open('myExam.html', 'popup_window', params); 
-popup.moveTo(0,0);
-}
-}
+	if (navigator.userAgent.indexOf("Firefox") != -1) 
+	{		
+		var exam="";
+		function goPage() 
+			{
+			localStorage.setItem("smartKey","060045");
+			var params = [
+    		'height='+screen.height,
+    		'width='+screen.width,
+    		'fullscreen=yes' // only works in IE, but here for completeness
+			].join(',');
+     
 
+			var popup = window.open('myExam.html', 'popup_window', params); 
+			popup.moveTo(0,0);
+		}
+	}
+	
+	else
+ 	{
+	 	alert("Sınava Yalnızca Mozilla Firefox Browser Kullanarak Girebilirsiniz");
+		 window.location.href = 'http://tomer.kastamonu.edu.tr/';
+		
+ 	}
 
-
+ }
+ 
 
 </script>
 <style>
@@ -94,9 +105,10 @@ Ad, Soyad ve Öğrenci Numarası Alanlarını Yanlış Bilgi ile Doldurursanız 
 Sınavınız Başladıktan Sonra Açık Olan Web Sayfası Dışına Çıkmaya Çalışırsanız Sınavınız İptal Olur.<br><br>
 Sınav Sırasında Başka Bir Sekme, Web Tarayıcısı veya Program Çalıştırırsanız Sınavınız İptal Olur.<br><br>
 Belirtilen Sürede Sınavı Tamamlayamazsanız Sistem Sınav Sonuna Kadar Cevaplandırmış Olduğunuz Soruları Kaydeder.<br> <br>
-Tarayıcı (Browser) Olarak Mozilla Firefox Kullanmanızı Tavsiye Ederiz.<br><br>
+Sınava Yalnızca Mozilla Firefox Tarayıcı ile Katılabilirsiniz<br><br>
 <button id="baslaSinav" onclick="goPage()">Sınava Giriş Sayfasına Git</button>
 
 </div>
+
 </body>
 </html>
