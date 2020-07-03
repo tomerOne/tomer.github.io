@@ -87,7 +87,7 @@ function tick(){
 
 function startCountdown(){
 	window.startExam=true;
-	var minutes = 10;//----------------------------------------------Sınav Süresi Ayarlama (Dakika Cinsinden)
+	var minutes = 30;//----------------------------------------------Sınav Süresi Ayarlama (Dakika Cinsinden)
 	secondsRemaining = minutes * 60;
 	intervalHandle = setInterval(tick, 1000);
 }
@@ -211,7 +211,7 @@ function foo() {
 </script>
 
 <script type="text/javascript">
-	
+	var onePiece="https://spreadsheets.google.com/feeds/cells/";
    	
     $(document).ready(function() {
 		
@@ -262,7 +262,7 @@ function foo() {
 				document.getElementById("attent").innerHTML="Lütfen Sınav Esnasında Aktif Sayfayı Terk Etmeyiniz. Ceza Olarak 1dk. Boyunca Sınav Ekranınız Kapatılacak, Bir Kez Daha Aktif Sayfa Dışına Çıkarsanız Sınavınız Sonlandırılacaktır.";
 				
 				window.startExam=false;
-				setTimeout(function() { bodyDel(); }, 20000);
+				setTimeout(function() { bodyDel(); }, 60000);
             } 
 			
 			else if (sayfa>=2)
@@ -285,11 +285,12 @@ function closeAttentTwo()
 		$("#attentTwo").css("display","none");
 	}
 	
-	
+	var sekonder="1Brx4BKoxCfNqLQriyHaIkyqoQPvLOmK2iudwubBaZhY/1/";
 function checkSpread()
 {
-var url = "https://spreadsheets.google.com/feeds/cells/1Brx4BKoxCfNqLQriyHaIkyqoQPvLOmK2iudwubBaZhY/1/public/full?alt=json&range=BM1&single=true"
 
+var final="public/full?alt=json&range=BM1&single=true";
+var url=onePiece+sekonder+final;
 var ajax = new XMLHttpRequest();
 ajax.open("GET", url, true);
 ajax.send(null);
@@ -564,7 +565,7 @@ $.ajax({
     
     <div id="dogrulama">
     	<div id="dogrulamaInText">
-        	<br><br><br>Sınav Kaydınız Tamamlanmıştır.<br><br> Şimdi Zoom'u Açabilirsiniz.<br><br> Sınav Giriş Kodu Zoom Üzerinden Öğretmeniniz Tarafından Verilecektir.<br><br><br><br>
+        	<br><br><br>Sınav Kaydınız Tamamlanmıştır.<br><br> Sınav Giriş Kodu Zoom Üzerinden Öğretmeniniz Tarafından Verilecektir.<br><br><br><br>
         
         </div>
     
@@ -603,12 +604,8 @@ $.ajax({
        
        
        <div class="header" >
-    <div id="play0" style="font: bold 16px Arial; color:white;background-color: #0F0;padding: 15px 32px;border: none; text-align:center;"> SES DOSYASINI DİNLEMEK İÇİN BU ALANA TIKLAYINIZ </div>
-    <div id="play1" style="font: bold 16px Arial; color:white;background-color: black;padding: 15px 32px;border: none; text-align:center; visibility:hidden;"> SES DOSYASINI ÇALMA İŞLEMİ BİTTİĞİNDE DİNLEME İŞLEMİ SON BİR KEZ DAHA GERÇEKLEŞTİRİLEBİLECEKTİR.</div>
-    <div id="soundAttent">(Ses Dosyası Yalnızca İki Kez Dinlenebilir!)</div>
-    <div><br></div>
-    <div>
-    </div>
+    
+   
 </div>
        
        
